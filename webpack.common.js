@@ -8,7 +8,7 @@ const pug = globule.find("./src/pug/*.pug", {
 })
 const svg = globule.find("./src/img/*.svg").length
 
-const sketchID = 1
+const sketchID = 3
 const buildPath = `${__dirname}/docs/${sketchID}/`
 const yellow = "\u001b[33m"
 
