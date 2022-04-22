@@ -14,7 +14,4 @@ export default function() {
 		html.classList.add("wf-inactive")
 	}, 3000
 	)
-	html.insertAdjacentHTML("", `
-		
-	`)
 }
