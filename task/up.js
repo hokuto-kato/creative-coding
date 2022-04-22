@@ -10,12 +10,8 @@ const option = {
 	clean: true,
 }
 
-const sketchID = () => {
-	return Number(process.argv[2])
-}
-
 const copyFile = () => {
-	cpx.copy(`./src/**/*`, `./sketch/${sketchID()}/`, option, (err) => {
+	cpx.copy(`./src/**/*`, `./sketch/${Number(process.argv[2])}/`, option, (err) => {
 		if (err) throw err
 		console.log("copy done")
 	})
