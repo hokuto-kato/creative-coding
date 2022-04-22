@@ -1,4 +1,4 @@
-import "./globals"
+import p5 from "p5"
 
 const target = document.querySelector("[data-target]")
 export default function() {
