@@ -1,4 +1,4 @@
-import p5 from "p5"
+import "./globals"
 import "p5/lib/addons/p5.sound"
 
 const target = document.querySelector("[data-target]")
