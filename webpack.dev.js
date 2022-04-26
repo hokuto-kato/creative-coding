@@ -44,6 +44,13 @@ module.exports = merge(common, {
 				},
 			},
 			{
+				test: /\.(mp3)$/i,
+				type: "asset/resource",
+				generator: {
+					filename: "./sound/[name][ext]",
+				},
+			},
+			{
 				test: /\.(sass|scss)$/i,
 				use: [
 					{
