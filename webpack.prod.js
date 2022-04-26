@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const autoprefixer = require("autoprefixer")
 const TerserPlugin = require("terser-webpack-plugin")
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
-const sketchID = 3
+const sketchID = 4
 const buildPath = `${__dirname}/docs/${sketchID}/`
 
 module.exports = merge(common, {
@@ -82,6 +82,13 @@ module.exports = merge(common, {
 				type: "asset/resource",
 				generator: {
 					filename: "./sound/[name].[contenthash][ext]",
+				},
+			},
+			{
+				test: /\.(woff2)$/i,
+				type: "asset/resource",
+				generator: {
+					filename: "./font/[name].[contenthash][ext]",
 				},
 			},
 			{
