@@ -5,7 +5,7 @@ const target = document.querySelector("[data-target]")
 export default function() {
 	const sketch = (p) => {
 		p.setup = () => {
-			p.createCanvas(400, 400)
+			p.createCanvas(720, 720)
 		}
 		p.draw = () => {
 			p.background(220)
