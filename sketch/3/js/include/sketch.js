@@ -22,7 +22,7 @@ export default function() {
 		}
 		p.draw = () => {
 			p.background("#000")
-			const level = amplitude.getLevel()
+			let level = amplitude.getLevel()
 			for (let i = 0; i < 1000; i++) {
 				p.stroke("#fff")
 				p.strokeWeight(p.random(3))
@@ -36,10 +36,7 @@ export default function() {
 					p.height / 2.5,
 				)
 			} else {
-				p.translate(
-					p.width * level * 1.4,
-					p.height * level * 1.4,
-				)
+				p.translate(p.width / 2.8 + level * 500, p.height / 2.8 + level * 500)
 			}
 			for (let j = 0; j < 150; j++) {
 				drawTriangle(j, j, 100)
