@@ -12,36 +12,28 @@ export default function() {
 	let bgColor
 	let mainColor
 	let colors
+	let colorsData
 	let colorId
-	let fft
 
+	const setColor = () => {
+		colorId = Math.floor(Math.random() * colors.length - 1)
+		bgColor = colors[colorId].bgColor
+		mainColor = colors[colorId].mainColor
+	}
 	const sketch = (p) => {
-		const getColors = async() => {
-			const colorResponse = await fetch(require("~/data/colors.json"))
-			return await colorResponse.json()
-		}
-		const init = async() => {
-			colors = await Promise.all([getColors()])
-		}
-		const setColor = () => {
-			colorId = Math.floor(Math.random() * colors[0].colors.length - 1)
-			bgColor = colors[0].colors[colorId].bgColor
-			mainColor = colors[0].colors[colorId].mainColor
-		}
 		p.preload = () => {
 			beat = p.loadSound(require("~/sound/6.mp3"))
+			colorsData = p.loadJSON(require("~/data/colors.json"))
 		}
-		p.setup = async() => {
-			await init()
+		p.setup = () => {
+			colors = colorsData.colors
 			canvas = p.createCanvas(p.windowWidth, p.windowHeight, p.WEBGL)
 			amplitude = new p5.Amplitude()
 			canvas.mousePressed(p.playSound)
 			p.cursor(p.HAND)
-			fft = new p5.FFT()
 			setColor()
 		}
-		p.draw = async() => {
-
+		p.draw = () => {
 			p.rotate(p.millis() / 10000, [0, 1, 0])
 			p.stroke(bgColor)
 			p.strokeWeight(0.2)
@@ -49,8 +41,6 @@ export default function() {
 			p.fill(mainColor)
 			p.torus(250, 150, angle, 12)
 			let level = amplitude.getLevel()
-			let spectrum = fft.analyze()
-			console.log(level)
 			if (level >= 0.1) {
 				if (!levelFlag) {
 					if (angle === 16) {
