@@ -11,14 +11,13 @@ export default function() {
 	let maxFlag = false
 	let bgColor
 	let mainColor
-	let colors
 	let colorsData
 	let colorId
 
 	const setColor = () => {
-		colorId = Math.floor(Math.random() * colors.length - 1)
-		bgColor = colors[colorId].bgColor
-		mainColor = colors[colorId].mainColor
+		colorId = Math.floor(Math.random() * colorsData.colors.length - 1)
+		bgColor = colorsData.colors[colorId].bgColor
+		mainColor = colorsData.colors[colorId].mainColor
 	}
 	const sketch = (p) => {
 		p.preload = () => {
@@ -26,7 +25,6 @@ export default function() {
 			colorsData = p.loadJSON(require("~/data/colors.json"))
 		}
 		p.setup = () => {
-			colors = colorsData.colors
 			canvas = p.createCanvas(p.windowWidth, p.windowHeight, p.WEBGL)
 			amplitude = new p5.Amplitude()
 			canvas.mousePressed(p.playSound)
