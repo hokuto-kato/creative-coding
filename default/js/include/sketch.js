@@ -1,15 +1,11 @@
 import "./globals"
 import "p5/lib/addons/p5.sound"
 
-const target = document.querySelector("[data-target]")
-export default function() {
-	const sketch = (p) => {
-		p.setup = () => {
-			p.createCanvas(720, 720)
-		}
-		p.draw = () => {
-			p.background(220)
-		}
+export default function(p) {
+	p.setup = () => {
+		p.createCanvas(720, 720)
 	}
-	new p5(sketch, target)
+	p.draw = () => {
+		p.background(220)
+	}
 }
