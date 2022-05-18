@@ -8,7 +8,7 @@ const pug = globule.find("./src/pug/*.pug", {
 })
 const svg = globule.find("./src/img/*.svg").length
 
-const sketchID = 3
+const sketchID = 9
 const buildPath = `${__dirname}/docs/${sketchID}/`
 const yellow = "\u001b[33m"
 
@@ -55,6 +55,24 @@ const app = {
 					},
 				],
 			},
+			{
+				test: /\.font\.js/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					{
+						loader: 'css-loader',
+						options: {
+							url: false
+						}
+					},
+					{
+						loader: 'webfonts-loader',
+						options: {
+							publicPath: '../',
+						}
+					}
+				]
+			}
 		],
 	},
 	plugins: [

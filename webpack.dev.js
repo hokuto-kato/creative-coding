@@ -3,7 +3,7 @@ const common = require("./webpack.common")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const autoprefixer = require("autoprefixer")
 const TerserPlugin = require("terser-webpack-plugin")
-const sketchID = 4
+const sketchID = 9
 const buildPath = `${__dirname}/docs/${sketchID}/`
 
 module.exports = merge(common, {
@@ -51,7 +51,7 @@ module.exports = merge(common, {
 				},
 			},
 			{
-				test: /\.(woff2)$/i,
+				test: /\.(woff2|ttf)$/i,
 				type: "asset/resource",
 				generator: {
 					filename: "./font/[name][ext]",

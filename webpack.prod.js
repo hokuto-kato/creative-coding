@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const autoprefixer = require("autoprefixer")
 const TerserPlugin = require("terser-webpack-plugin")
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
-const sketchID = 4
+const sketchID = 9
 const buildPath = `${__dirname}/docs/${sketchID}/`
 
 module.exports = merge(common, {
@@ -85,7 +85,7 @@ module.exports = merge(common, {
 				},
 			},
 			{
-				test: /\.(woff2)$/i,
+				test: /\.(woff2|ttf)$/i,
 				type: "asset/resource",
 				generator: {
 					filename: "./font/[name].[contenthash][ext]",
@@ -139,22 +139,5 @@ module.exports = merge(common, {
 		new MiniCssExtractPlugin({
 			filename: "./css/[name].[contenthash].css",
 		}),
-		// new workBoxWebpackPlugin.GenerateSW({
-		// 	clientsClaim: true,
-		// 	skipWaiting: true,
-		// 	mode: "production",
-		// 	runtimeCaching: [
-		// 		{
-		// 			urlPattern: new RegExp("./"),
-		// 			handler: "CacheFirst",
-		// 			options: {
-		// 				cacheName: "static-cache",
-		// 				expiration: {
-		// 					maxAgeSeconds: 60 * 60 * 24 * 30,
-		// 				},
-		// 			},
-		// 		},
-		// 	],
-		// }),
 	],
 })

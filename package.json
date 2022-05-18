@@ -57,6 +57,7 @@
 		"svg-spritemap-webpack-plugin": "^4.4.0",
 		"terser-webpack-plugin": "^5.3.0",
 		"webfontloader": "^1.6.28",
+		"webfonts-loader": "^7.5.2",
 		"webpack": "^5.72.1",
 		"webpack-cli": "^4.9.1",
 		"webpack-dev-server": "^4.9.0",
