@@ -9,5 +9,4 @@ module.exports = {
 	"types": ["eot", "woff", "woff2", "ttf", "svg"],
 	"fixedWidth": true,
 	"fileName": "[fontname].[chunkhash].[ext]",
-	"html": true
 }
