@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const autoprefixer = require("autoprefixer")
 const TerserPlugin = require("terser-webpack-plugin")
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
-const sketchID = 9
+const sketchID = 10
 const buildPath = `${__dirname}/docs/${sketchID}/`
 
 module.exports = merge(common, {
@@ -89,6 +89,16 @@ module.exports = merge(common, {
 				type: "asset/resource",
 				generator: {
 					filename: "./font/[name].[contenthash][ext]",
+				},
+			},
+			{
+				test: /\.js$/i,
+				loader: "babel-loader",
+				generator: {
+					filename: "./js/[name].[contenthash][ext]",
+				},
+				options: {
+					presets: ["@babel/preset-env"],
 				},
 			},
 			{

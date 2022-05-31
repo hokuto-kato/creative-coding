@@ -8,7 +8,7 @@ const pug = globule.find("./src/pug/*.pug", {
 })
 const svg = globule.find("./src/img/*.svg").length
 
-const sketchID = 9
+const sketchID = 10
 const buildPath = `${__dirname}/docs/${sketchID}/`
 const yellow = "\u001b[33m"
 
@@ -20,6 +20,7 @@ const app = {
 		static: buildPath,
 		open: true,
 		hot: true,
+		watchFiles: ['src/js/**/*.js', './*.html'],
 	},
 	entry: {
 		app: `./src/js/app.js`,
@@ -60,19 +61,19 @@ const app = {
 				use: [
 					MiniCssExtractPlugin.loader,
 					{
-						loader: 'css-loader',
+						loader: "css-loader",
 						options: {
-							url: false
-						}
+							url: false,
+						},
 					},
 					{
-						loader: 'webfonts-loader',
+						loader: "webfonts-loader",
 						options: {
-							publicPath: '../',
-						}
-					}
-				]
-			}
+							publicPath: "../",
+						},
+					},
+				],
+			},
 		],
 	},
 	plugins: [
@@ -82,18 +83,31 @@ const app = {
 	],
 }
 
-pug.forEach((template) => {
-	const fileName = template.replace("./src/pug/", "").replace(".pug", ".html")
+if (pug.length) {
+	pug.forEach((template) => {
+		const fileName = template.replace("./src/pug/", "")
+			.replace(".pug", ".html")
+		app.plugins.push(
+			new HtmlWebpackPlugin({
+				filename: `${fileName}`,
+				template: template,
+				inject: true,
+				alwaysWriteToDisk: true,
+				favicon: `./src/favicon/favicon.svg`,
+			}),
+		)
+	})
+} else {
 	app.plugins.push(
 		new HtmlWebpackPlugin({
-			filename: `${fileName}`,
-			template: template,
+			filename: `index.html`,
+			template: `src/index.html`,
 			inject: true,
 			alwaysWriteToDisk: true,
 			favicon: `./src/favicon/favicon.svg`,
 		}),
 	)
-})
+}
 
 if (svg) {
 	app.plugins.push(
