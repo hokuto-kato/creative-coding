@@ -35,13 +35,6 @@ const app = {
 	module: {
 		rules: [
 			{
-				test: /\.js$/i,
-				loader: "babel-loader",
-				options: {
-					presets: ["@babel/preset-env"],
-				},
-			},
-			{
 				test: /\.html$/i,
 				loader: "html-loader",
 			},

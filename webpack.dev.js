@@ -58,6 +58,16 @@ module.exports = merge(common, {
 				},
 			},
 			{
+				test: /\.js$/i,
+				loader: "babel-loader",
+				generator: {
+					filename: "./font/[name][ext]",
+				},
+				options: {
+					presets: ["@babel/preset-env"],
+				},
+			},
+			{
 				test: /\.(sass|scss)$/i,
 				use: [
 					{
@@ -88,16 +98,6 @@ module.exports = merge(common, {
 						},
 					},
 				],
-			},
-			{
-				test: /\.js$/i,
-				loader: "babel-loader",
-				generator: {
-					filename: "./js/[name][ext]",
-				},
-				options: {
-					presets: ["@babel/preset-env"],
-				},
 			},
 			{
 				test: /\.css$/i,

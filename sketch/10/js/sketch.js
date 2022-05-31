@@ -11,11 +11,16 @@ let hourText
 let minuteText
 let secondText
 
-const initClock = () => {
+const getTime = () => {
 	hourText = hour()
 	minuteText = minute()
 	secondText = second()
+}
+
+const initClock = () => {
+	getTime()
 	showText()
+
 	hourPolygons.forEach(polygon => {
 		polygon.remove()
 		hourPolygons = []
@@ -39,6 +44,7 @@ const initClock = () => {
 		secondPolygons.push(new SecondPolygon(580, 0, 20, 20))
 	}
 }
+
 const showText = () => {
 	textSize(20)
 	fill(255)
@@ -48,6 +54,7 @@ const showText = () => {
 	text(minuteText, 345, height - 15)
 	text(secondText, 580, height - 15)
 }
+
 const polygon = (x, y, radius, npoints) => {
 	let angle = TWO_PI / npoints
 	beginShape()
@@ -58,11 +65,11 @@ const polygon = (x, y, radius, npoints) => {
 	}
 	endShape(CLOSE)
 }
+
 const handleSecond = () => {
-	hourText = hour()
-	minuteText = minute()
-	secondText = second()
-	if (hourPolygons.length === 0) {
+	getTime()
+
+	if (hour() === 0 && minute() === 0 && second() === 0) {
 		hourPolygons.forEach(polygon => {
 			polygon.remove()
 			hourPolygons = []
@@ -76,27 +83,34 @@ const handleSecond = () => {
 			secondPolygons = []
 		})
 	}
+
 	if (minute() === 0) {
 		minutePolygons.forEach(polygon => {
 			polygon.remove()
 			minutePolygons = []
 		})
-		hourPolygons.push(new HourPolygon(140, 0, 20, 20))
+		if (hour() !== 0 && second() === 0) {
+			hourPolygons.push(new HourPolygon(random(139,140), 0, 20, 20))
+		}
 	}
+
 	if (second() === 0) {
 		secondPolygons.forEach(polygon => {
 			polygon.remove()
 			secondPolygons = []
 		})
-		minutePolygons.push(new MinutePolygon(360, 0, 20, 20))
+		if (minute() !== 0) {
+			minutePolygons.push(new MinutePolygon(random(359,360), 0, 20, 20))
+		}
 	} else {
-		secondPolygons.push(new SecondPolygon(random(570, 590), 20, 20, 20))
+		secondPolygons.push(new SecondPolygon(random(589,590), 0, 20, 20))
 	}
 }
 
 function preload() {
-	font = loadFont("/../../font/Minimal-Mono-Regular.ttf")
+	font = loadFont("../../font/Minimal-Mono-Regular.ttf")
 }
+
 function setup() {
 	createCanvas(720, 720)
 	engine = Engine.create()
@@ -113,7 +127,7 @@ function setup() {
 	setInterval(handleSecond, 1000)
 }
 
-async function draw() {
+function draw() {
 	background(0)
 
 	//bg
@@ -144,7 +158,7 @@ async function draw() {
 }
 
 document.addEventListener("visibilitychange", () => {
-	if (!document.hidden) {
+	if (document.visibilityState === 'visible') {
 		initClock()
 	}
 })
