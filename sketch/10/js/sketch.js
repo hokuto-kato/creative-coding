@@ -6,25 +6,36 @@ let boundaries = []
 let hourPolygons = []
 let minutePolygons = []
 let secondPolygons = []
-let hour
-let minute
-let second
 let font
+let hourText
+let minuteText
+let secondText
 
-const getTime = () => {
-	hour = new Date().getHours()
-	minute = new Date().getMinutes()
-	second = new Date().getSeconds()
-}
-const init = () => {
-	getTime()
-	for (let i = 0; i < hour; i++) {
+const initClock = () => {
+	hourText = hour()
+	minuteText = minute()
+	secondText = second()
+	showText()
+	hourPolygons.forEach(polygon => {
+		polygon.remove()
+		hourPolygons = []
+	})
+	minutePolygons.forEach(polygon => {
+		polygon.remove()
+		minutePolygons = []
+	})
+	secondPolygons.forEach(polygon => {
+		polygon.remove()
+		secondPolygons = []
+	})
+
+	for (let i = 0; i < hour(); i++) {
 		hourPolygons.push(new HourPolygon(140, 0, 20, 20))
 	}
-	for (let i = 0; i < minute; i++) {
+	for (let i = 0; i < minute(); i++) {
 		minutePolygons.push(new MinutePolygon(360, 0, 20, 20))
 	}
-	for (let i = 0; i < second; i++) {
+	for (let i = 0; i < second(); i++) {
 		secondPolygons.push(new SecondPolygon(580, 0, 20, 20))
 	}
 }
@@ -33,9 +44,9 @@ const showText = () => {
 	fill(255)
 	noStroke()
 	textFont(font)
-	text(hour, 120, height - 15)
-	text(minute, 345, height - 15)
-	text(second, 580, height - 15)
+	text(hourText, 120, height - 15)
+	text(minuteText, 345, height - 15)
+	text(secondText, 580, height - 15)
 }
 const polygon = (x, y, radius, npoints) => {
 	let angle = TWO_PI / npoints
@@ -48,44 +59,44 @@ const polygon = (x, y, radius, npoints) => {
 	endShape(CLOSE)
 }
 const handleSecond = () => {
-	setInterval(() => {
+	hourText = hour()
+	minuteText = minute()
+	secondText = second()
+	if (hourPolygons.length === 0) {
+		hourPolygons.forEach(polygon => {
+			polygon.remove()
+			hourPolygons = []
+		})
+		minutePolygons.forEach(polygon => {
+			polygon.remove()
+			minutePolygons = []
+		})
+		secondPolygons.forEach(polygon => {
+			polygon.remove()
+			secondPolygons = []
+		})
+	}
+	if (minute() === 0) {
+		minutePolygons.forEach(polygon => {
+			polygon.remove()
+			minutePolygons = []
+		})
+		hourPolygons.push(new HourPolygon(140, 0, 20, 20))
+	}
+	if (second() === 0) {
+		secondPolygons.forEach(polygon => {
+			polygon.remove()
+			secondPolygons = []
+		})
+		minutePolygons.push(new MinutePolygon(360, 0, 20, 20))
+	} else {
 		secondPolygons.push(new SecondPolygon(random(570, 590), 20, 20, 20))
-
-		if (hourPolygons.length === 0) {
-			hourPolygons.forEach(polygon => {
-				polygon.remove()
-				hourPolygons = []
-			})
-			minutePolygons.forEach(polygon => {
-				polygon.remove()
-				minutePolygons = []
-			})
-			secondPolygons.forEach(polygon => {
-				polygon.remove()
-				secondPolygons = []
-			})
-		}
-		if (minute === 0) {
-			minutePolygons.forEach(polygon => {
-				polygon.remove()
-				minutePolygons = []
-			})
-			hourPolygons.push(new HourPolygon(140, 0, 20, 20))
-		}
-		if (second === 0) {
-			secondPolygons.forEach(polygon => {
-				polygon.remove()
-				secondPolygons = []
-			})
-			minutePolygons.push(new MinutePolygon(360, 0, 20, 20))
-		}
-	}, 1000)
+	}
 }
 
 function preload() {
 	font = loadFont("/../../font/Minimal-Mono-Regular.ttf")
 }
-
 function setup() {
 	createCanvas(720, 720)
 	engine = Engine.create()
@@ -98,19 +109,18 @@ function setup() {
 		new Boundaries(0, height - 25, width * 2, 50),
 	]
 	Matter.Runner.run(engine)
-	init()
-	handleSecond()
+	initClock()
+	setInterval(handleSecond, 1000)
 }
 
 async function draw() {
 	background(0)
-	getTime()
 
 	//bg
 	stroke(255)
-	strokeWeight(0.2)
+	strokeWeight(0.3)
 	for (let i = 1; i < width; i++) {
-		line(i * width/10 + random(0,10), 0, i * width/10 + random(0,10), height)
+		line(i * width / 10 + random(0, 10), 0, i * width / 10 + random(0, 10), height)
 	}
 
 	//boundaries
@@ -129,6 +139,12 @@ async function draw() {
 		polygon.show()
 	})
 
-	// text
+	//text
 	showText()
 }
+
+document.addEventListener("visibilitychange", () => {
+	if (!document.hidden) {
+		initClock()
+	}
+})
